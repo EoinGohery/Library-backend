@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 @AllArgsConstructor
 public class AuthController {
-    //stuff
     private final AuthService authService;
     private final UserRepository userRepository;
     @Autowired

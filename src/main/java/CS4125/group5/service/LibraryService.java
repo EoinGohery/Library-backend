@@ -30,5 +30,26 @@ public class LibraryService {
         return book;
     }
 
+    @Transactional(readOnly = true)
+    public List<Book> getBooksByGenre(String genre){
+        List<Book> books = bookRepository.findAllByGenre(genre);
+        return books.stream().collect(toList());
+    }
+    @Transactional(readOnly = true)
+    public Book getBookByName(String name) throws Exception {
+        Book book = bookRepository.findByBookName(name).orElseThrow(()-> new Exception());
+        return book;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Book> getBooksByAuthor(String author){
+        List<Book> books = bookRepository.findAllByAuthor(author);
+        return books.stream().collect(toList());
+    }
+    @Transactional(readOnly = true)
+    public List<Book> findAll(){
+        return bookRepository.findAll().stream().collect(toList());
+    }
+
 
 }
