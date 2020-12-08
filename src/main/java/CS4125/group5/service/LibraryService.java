@@ -2,8 +2,15 @@ package CS4125.group5.service;
 
 
 import CS4125.group5.dto.BookRequest;
+import CS4125.group5.dto.RatingDto;
+import CS4125.group5.entity.AddedBooks;
 import CS4125.group5.entity.Book;
+import CS4125.group5.entity.Ratings;
+import CS4125.group5.entity.User;
+import CS4125.group5.repository.AddedBooksRepository;
 import CS4125.group5.repository.BookRepository;
+import CS4125.group5.repository.RatingRepository;
+import CS4125.group5.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +23,22 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 public class LibraryService {
     private final BookRepository bookRepository;
-    public void addBook(BookRequest bookRequest){
+    private final UserRepository userRepository;
+    private final RatingRepository ratingRepository;
+    private final AddedBooksRepository addedBooksRepository;
+    public void addBook(BookRequest bookRequest) throws Exception {
         Book book = new Book();
+        AddedBooks addedBook = new AddedBooks();
         book.setAuthor(bookRequest.getAuthor());
         book.setBookName(bookRequest.getName());
         book.setGenre(bookRequest.getGenre());
+        User user = userRepository.findByUsername(bookRequest.getUsername()).orElseThrow(()-> new Exception());
+        addedBook.setUser(user);
+        addedBook.setBook(book);
         bookRepository.save(book);
+        addedBooksRepository.save(addedBook);
     }
+
 
     @Transactional(readOnly = true)
     public Book getBookById(Long id) throws Exception {
@@ -50,6 +66,18 @@ public class LibraryService {
     public List<Book> findAll(){
         return bookRepository.findAll().stream().collect(toList());
     }
-
+    @Transactional(readOnly = true)
+    public List<Ratings> findAllRatings(){
+        return ratingRepository.findAll().stream().collect(toList());
+    }
+    public void addRating(RatingDto ratingDto) throws Exception {
+        Book book = bookRepository.findByBookName(ratingDto.getBookName()).orElseThrow(()-> new Exception());
+        User user = userRepository.findByUsername(ratingDto.getUserName()).orElseThrow(()-> new Exception());
+        Ratings rating = new Ratings();
+        rating.setBook(book);
+        rating.setRating(ratingDto.getRating());
+        rating.setUser(user);
+        ratingRepository.save(rating);
+    }
 
 }
