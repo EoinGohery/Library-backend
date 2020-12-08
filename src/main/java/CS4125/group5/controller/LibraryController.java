@@ -2,6 +2,7 @@ package CS4125.group5.controller;
 
 
 import CS4125.group5.dto.BookRequest;
+import CS4125.group5.dto.RatingDto;
 import CS4125.group5.entity.Book;
 import CS4125.group5.service.LibraryService;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 public class LibraryController {
     private final LibraryService libraryService;
     @PostMapping("/add")
-    public ResponseEntity<String> addBook(@RequestBody BookRequest bookRequest) {
+    public ResponseEntity<String> addBook(@RequestBody BookRequest bookRequest) throws Exception {
         libraryService.addBook(bookRequest);
         return new ResponseEntity<>("Book has been Registered in the system", HttpStatus.CREATED);
     }
@@ -44,6 +45,16 @@ public class LibraryController {
         return ResponseEntity.ok(libraryService.findAll());
     }
 
+    @PostMapping("/rate")
+    public ResponseEntity<String> addRating(@RequestBody RatingDto ratingDto) throws Exception {
+        if(ratingDto.getRating() > 5){
+            ratingDto.setRating(5);
+        }else if(ratingDto.getRating() < 1){
+            ratingDto.setRating(1);
+        }
+        libraryService.addRating(ratingDto);
+        return new ResponseEntity<>("Rating has been Registered in the system", HttpStatus.CREATED);
+    }
 
 
 }
