@@ -52,10 +52,11 @@ public class LibraryService {
         return books.stream().collect(toList());
     }
     @Transactional(readOnly = true)
-    public Book getBookByName(String name) throws Exception {
-        Book book = bookRepository.findByBookName(name).orElseThrow(()-> new Exception());
-        return book;
+    public List<Book> getBookByName(String name) throws Exception {
+        List<Book> books = bookRepository.findAllByBookName(name);
+        return books.stream().collect(toList());
     }
+
 
     @Transactional(readOnly = true)
     public List<Book> getBooksByAuthor(String author){

@@ -31,7 +31,7 @@ public class LibraryController {
         return ResponseEntity.ok(libraryService.getBookById(id));
     }
     @GetMapping("/book/{name}")
-    public ResponseEntity<Book> booksByName(@PathVariable String name) throws Exception {
+    public ResponseEntity<List<Book>> booksByName(@PathVariable String name) throws Exception {
         return ResponseEntity.ok(libraryService.getBookByName(name));
     }
 
