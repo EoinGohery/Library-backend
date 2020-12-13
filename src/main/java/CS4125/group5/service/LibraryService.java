@@ -81,4 +81,11 @@ public class LibraryService {
         ratingRepository.save(rating);
     }
 
+    public boolean containsSwearWords(String bookname) throws Exception {
+        if(bookname.contains("Shize")){
+            throw new Exception("Book name contains bad language");
+        }
+        return false;
+    }
+
 }
