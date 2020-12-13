@@ -15,7 +15,7 @@ public class LibraryServiceTest {
         Assertions.assertFalse(libraryService.containsSwearWords("Witches"));
     }
     @Test
-    @DisplayName("Test should throw exception when exception contains swear words")
+    @DisplayName("Test should throw exception when bookname contains swear words")
     void containsSwearWordsShouldFail() throws Exception {
 
         LibraryService libraryService = new LibraryService(null,null,null,null

@@ -1,7 +1,5 @@
 package CS4125.group5.service;
-import CS4125.group5.dto.LoginRequest;
-import CS4125.group5.dto.LoginResponse;
-import CS4125.group5.dto.RegisterRequest;
+import CS4125.group5.dto.*;
 import CS4125.group5.entity.User;
 import CS4125.group5.repository.UserRepository;
 import CS4125.group5.security.JwtProvider;
@@ -32,6 +30,9 @@ public class AuthService {
     private UserDetailsServiceImpl userDetailsService;
 
     public void signup(RegisterRequest registerRequest) {
+        DtoFactory dtoFactory = new DtoFactory();
+        Dto regReq = dtoFactory.getEntity("REGISTER");
+        regReq.getInformation();
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -53,6 +54,7 @@ public class AuthService {
             Authentication authenticate = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authenticate);
+
         }
         catch (BadCredentialsException e){
             throw new Exception("Incorrect username or password");

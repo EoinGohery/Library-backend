@@ -43,10 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**")
                 .permitAll();
         /*
-
+        any request that doesn't match this pattern "/api/auth/**" should be authenticated,
+        What this means is that only logged in users can view pages that follow the path
+        /api/library/
+        Other paths such as /api/auth can be accessed by anybody as it contains /login and
+        /signup
          */
 
-        //any request that doesn't match this pattern "/api/auth/**" should be authenticated
     }
 
     @Autowired

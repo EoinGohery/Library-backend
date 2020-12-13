@@ -2,11 +2,10 @@ package CS4125.group5.service;
 
 
 import CS4125.group5.dto.BookRequest;
+import CS4125.group5.dto.Dto;
+import CS4125.group5.dto.DtoFactory;
 import CS4125.group5.dto.RatingDto;
-import CS4125.group5.entity.AddedBooks;
-import CS4125.group5.entity.Book;
-import CS4125.group5.entity.Ratings;
-import CS4125.group5.entity.User;
+import CS4125.group5.entity.*;
 import CS4125.group5.repository.AddedBooksRepository;
 import CS4125.group5.repository.BookRepository;
 import CS4125.group5.repository.RatingRepository;
@@ -26,7 +25,11 @@ public class LibraryService {
     private final UserRepository userRepository;
     private final RatingRepository ratingRepository;
     private final AddedBooksRepository addedBooksRepository;
+
     public void addBook(BookRequest bookRequest) throws Exception {
+        DtoFactory dtoFactory = new DtoFactory();
+        Dto bookReq = dtoFactory.getEntity("BOOKREQUEST");
+        bookReq.getInformation();
         Book book = new Book();
         AddedBooks addedBook = new AddedBooks();
         book.setAuthor(bookRequest.getAuthor());
@@ -72,6 +75,9 @@ public class LibraryService {
         return ratingRepository.findAll().stream().collect(toList());
     }
     public void addRating(RatingDto ratingDto) throws Exception {
+        DtoFactory dtoFactory = new DtoFactory();
+        Dto rateReq = dtoFactory.getEntity("RATINGREQUEST");
+        rateReq.getInformation();
         Book book = bookRepository.findByBookName(ratingDto.getBookName()).orElseThrow(()-> new Exception());
         User user = userRepository.findByUsername(ratingDto.getUserName()).orElseThrow(()-> new Exception());
         Ratings rating = new Ratings();
